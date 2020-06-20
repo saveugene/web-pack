@@ -91,9 +91,9 @@ const getCopyPatterns = (patternList, srcDir = GLOBAL_CONFIG.src, bundleDir = GL
     return patterns;
 }
 
-const getPlugins = (plugins, config) =>{
+const getPlugins = (plugins, config) => {
     config.CopyWepackPlugin.patterns = getCopyPatterns(config.CopyWepackPlugin.patterns);
-    if(config.CopyWepackPlugin.patterns.length != 0){
+    if (config.CopyWepackPlugin.patterns.length != 0) {
         plugins.push(new CopyWebpackPlugin(config.CopyWepackPlugin))
     }
     return plugins;
@@ -133,8 +133,8 @@ module.exports = {
         }),
         new CleanWebpackPlugin(),
         new MiniCssExtractPlugin(),
-    ],{
-        'CopyWepackPlugin':{
+    ], {
+        'CopyWepackPlugin': {
             patterns: GLOBAL_CONFIG.copyPatterns
         }
     }),
@@ -153,7 +153,13 @@ module.exports = {
             },
             {
                 test: /\.(ttf|woff|woff2|eot)$/,
-                use: ['file-loader']
+                use: [{
+                    loader: 'file-loader',
+                    options: {
+                        name: '[name].[ext]',
+                        outputPath: 'fonts/'
+                    }
+                }]
             },
             {
                 test: /\.xml$/,
